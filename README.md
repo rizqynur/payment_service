@@ -1,66 +1,219 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## **API Documentation**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Base URL
+```plaintext
+http://your-domain.com/api
+```
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### **Authentication**
+- **Required**: Optional (if using Laravel Sanctum for secured routes)
+- **Header**: `Authorization: Bearer {token}`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## **Wallet API**
 
-## Learning Laravel
+### 1. **Get All Wallets**
+- **Endpoint**: `GET /wallets`
+- **Description**: Retrieve a list of all wallets.
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "id": 1,
+            "user_id": 1,
+            "balance": "100.00",
+            "created_at": "2024-09-29T12:00:00.000000Z",
+            "updated_at": "2024-09-29T12:00:00.000000Z"
+        }
+    ]
+    ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. **Create a New Wallet**
+- **Endpoint**: `POST /wallets`
+- **Description**: Create a new wallet for a user.
+- **Request Body**:
+  ```json
+  {
+      "user_id": 1,
+      "balance": "50.00"
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+        "id": 1,
+        "user_id": 1,
+        "balance": "50.00",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T12:00:00.000000Z"
+    }
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. **Get Wallet by ID**
+- **Endpoint**: `GET /wallets/{id}`
+- **Description**: Retrieve details of a specific wallet by its ID.
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+        "id": 1,
+        "user_id": 1,
+        "balance": "50.00",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T12:00:00.000000Z"
+    }
+    ```
+  - **404 Not Found**:
+    ```json
+    {
+        "message": "Wallet not found."
+    }
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 4. **Update Wallet**
+- **Endpoint**: `PUT /wallets/{id}`
+- **Description**: Update a wallet's balance or other details.
+- **Request Body**:
+  ```json
+  {
+      "balance": "75.00"
+  }
+  ```
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+        "id": 1,
+        "user_id": 1,
+        "balance": "75.00",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T13:00:00.000000Z"
+    }
+    ```
 
-## Laravel Sponsors
+### 5. **Delete Wallet**
+- **Endpoint**: `DELETE /wallets/{id}`
+- **Description**: Delete a wallet.
+- **Response**:
+  - **204 No Content**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## **Transaction API**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 1. **Get All Transactions**
+- **Endpoint**: `GET /transactions`
+- **Description**: Retrieve a list of all transactions.
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "id": 1,
+            "wallet_id": 1,
+            "amount": "20.00",
+            "type": "credit",
+            "description": "Salary",
+            "created_at": "2024-09-29T12:00:00.000000Z",
+            "updated_at": "2024-09-29T12:00:00.000000Z"
+        }
+    ]
+    ```
 
-## Contributing
+### 2. **Create a New Transaction**
+- **Endpoint**: `POST /transactions`
+- **Description**: Create a new transaction for a wallet.
+- **Request Body**:
+  ```json
+  {
+      "wallet_id": 1,
+      "amount": "100.00",
+      "type": "credit",
+      "description": "Deposit"
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+        "id": 1,
+        "wallet_id": 1,
+        "amount": "100.00",
+        "type": "credit",
+        "description": "Deposit",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T12:00:00.000000Z"
+    }
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. **Get Transaction by ID**
+- **Endpoint**: `GET /transactions/{id}`
+- **Description**: Retrieve details of a specific transaction by its ID.
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+        "id": 1,
+        "wallet_id": 1,
+        "amount": "100.00",
+        "type": "credit",
+        "description": "Deposit",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T12:00:00.000000Z"
+    }
+    ```
+  - **404 Not Found**:
+    ```json
+    {
+        "message": "Transaction not found."
+    }
+    ```
 
-## Code of Conduct
+### 4. **Update Transaction**
+- **Endpoint**: `PUT /transactions/{id}`
+- **Description**: Update details of a transaction.
+- **Request Body**:
+  ```json
+  {
+      "amount": "120.00",
+      "description": "Updated Deposit"
+  }
+  ```
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+        "id": 1,
+        "wallet_id": 1,
+        "amount": "120.00",
+        "type": "credit",
+        "description": "Updated Deposit",
+        "created_at": "2024-09-29T12:00:00.000000Z",
+        "updated_at": "2024-09-29T13:00:00.000000Z"
+    }
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. **Delete Transaction**
+- **Endpoint**: `DELETE /transactions/{id}`
+- **Description**: Delete a transaction.
+- **Response**:
+  - **204 No Content**
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **Common Response Codes**
+- **200 OK**: The request was successful.
+- **201 Created**: A resource was successfully created.
+- **204 No Content**: The resource was successfully deleted.
+- **400 Bad Request**: The request was invalid.
+- **404 Not Found**: The requested resource was not found.
+- **500 Internal Server Error**: A server error occurred.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+It is recommended to secure these endpoints using authentication methods like Laravel Sanctum to prevent unauthorized access.
